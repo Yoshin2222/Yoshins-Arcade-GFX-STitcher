@@ -648,7 +648,7 @@ def grab_ROM_Data(i):
 #        It's more like
 #        1256
 #        3478
-    TEST = 1
+    TEST = 0
 
     if TEST != 0:
         # The output should resemble MAMEs default display, where each 32x32 tile
@@ -725,17 +725,13 @@ def grab_ROM_Data(i):
                             adr = (dat<<2) + offset + (x<<2) + (y<<4)
                             buffer[(dat<<1)+0] += tile_data[(i>>2)][adr:adr+4]            
                             buffer[(dat<<1)+1] += tile_data[(i>>2)][adr:adr+4]            
-
-    #        for offset in range(0, len(tempfile3[i>>2]),0x40):
-    #            for index in range(0,4,1):
-    #                gfx_table[0] += tile_data[tile]#[offset:offset+1]
             add = 0x20
             add2 = add<<1
             for index in range(0,4,1):
                 for offset in range(0, len(tempfile3[i>>2]),add2):
                     gfx_table[0] += tile_data[index][offset:offset+add]
-    #                gfx_table[0] += tile_data[(index<<1)+1][offset:offset+add]
         else:
+
             add2 = 0x40
         #Take every 8x8 tile and reogrganize them
             for offset in range(0, len(tempfile3[i>>2]), add2<<1):
@@ -1085,13 +1081,11 @@ def cps1_de_interleave1():
     #and appropriately split them in to EVEN and ODD parts
     for group in range(0, len(res_file.group_size),1):
         k = 0
-#        print(group, " - assemble size  - ", hex(res_file.assemble_sizes[group]))
         print(group, " - assemble size  - ", hex(assemble_sizes[group]))
         while k < len(tempfile2[group<<1])<<1:
             for b in range(0, res_file.group_size[group],1):
                 file_index = res_file.group_indexes[a+b]-1
                 increment = res_file.rom_byte_size[file_index]
-#                split = res_file.split_table[a+b]
                 split = split_table[a+b]
                 val = temp_counter[(group<<1)+split]
 
